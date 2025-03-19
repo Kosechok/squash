@@ -1,0 +1,92 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+paths:
+  "/api/cities":
+    get:
+      summary: list cities
+      tags:
+      - Cities
+      - without Auth
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  cities:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        name:
+                          type: string
+                        country_name:
+                          type: string
+  "/api/clubs":
+    get:
+      summary: List clubs
+      tags:
+      - Clubs
+      - without Auth
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  clubs:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        name:
+                          type: string
+                        country_name:
+                          type: string
+                        city_name:
+                          type: string
+  "/api/countries":
+    get:
+      summary: list countries
+      tags:
+      - Countries
+      - without Auth
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  countries:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        name:
+                          type: string
+servers:
+- url: http://{defaultHost}
+  variables:
+    defaultHost:
+      default: 172.16.4.220:4001
