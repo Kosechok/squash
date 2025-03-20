@@ -85,6 +85,74 @@ paths:
                           type: integer
                         name:
                           type: string
+  "/api/user/signup":
+    post:
+      summary: register user
+      tags:
+      - User Registration
+      parameters: []
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  token:
+                    type: string
+                  user:
+                    type: object
+                    properties:
+                      category:
+                        type: string
+                      city:
+                        type: string
+                      club:
+                        type: string
+                      country:
+                        type: string
+                      date_of_birth:
+                        type: string
+                      email:
+                        type: string
+                      email_verified:
+                        type: boolean
+                      gender:
+                        type: string
+                      id:
+                        type: integer
+                      name:
+                        type: string
+                      position:
+                        type: string
+                      rating:
+                        type: string
+                      surname:
+                        type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    email:
+                      type: string
+                    password:
+                      type: string
+                  required:
+                  - name
+                  - email
+                  - password
+              required:
+              - user
 servers:
 - url: http://{defaultHost}
   variables:

@@ -9,5 +9,6 @@
 #
 class Country < ApplicationRecord
 	has_many :cities
-	has_many :clubs 
+	has_many :clubs
+	has_many :users 
 end

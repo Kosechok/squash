@@ -15,6 +15,8 @@ gem 'fast_jsonapi'
 gem 'simple_command'
 gem 'jwt'
 gem "devise"
+gem 'devise-jwt'
+gem 'omniauth'
 
 gem 'mina'
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
@@ -56,5 +58,10 @@ end
 group :development do
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
+  # gem 'mailcatcher'
+end
+
+group :test do
+  gem 'shoulda-matchers'
 end
 

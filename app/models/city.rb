@@ -12,4 +12,5 @@ class City < ApplicationRecord
 
 	belongs_to :country
 	has_many :clubs 
+	has_many :users
 end

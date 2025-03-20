@@ -24,27 +24,23 @@
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #
-require 'rails_helper'
+class UserSerializer
+  include FastJsonapi::ObjectSerializer
+  attributes :id, :email, :name, :surname, :gender, :category, :rating, :position, :date_of_birth#, :city, :country, :club#, :email_verified
 
-RSpec.describe User, type: :model do
-  describe 'associations' do
-    it { should belong_to(:country).optional }
-    it { should belong_to(:city).optional }
-    it { should belong_to(:club).optional }
-  end
-  # it { should belong_to(:city) }  
-
-  describe 'validations' do
-    let(:country) { Country.create(name: "Россия") }
-    let(:user) { User.new(email: "test@example.com", password: "password123") }
-
-    it "должен быть допустимым без страны" do
-      expect(user).to be_valid
-    end
-
-    it "должен быть допустимым с существующей страной" do
-      user.country = country
-      expect(user).to be_valid
-    end
+  attribute :city do |user|
+    user&.city&.name
   end  
+
+  attribute :country do |user|
+    user&.country&.name
+  end  
+
+  attribute :club do |user|
+    user&.club&.name
+  end
+
+  attribute :email_verified do |user|
+     !user.confirmed_at.nil?
+  end 
 end

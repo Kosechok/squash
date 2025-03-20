@@ -8,6 +8,9 @@
 #  reset_password_token   :string
 #  reset_password_sent_at :datetime
 #  remember_created_at    :datetime
+#  confirmation_token     :string
+#  confirmed_at           :datetime
+#  confirmation_sent_at   :datetime
 #  name                   :string
 #  surname                :string
 #  gender                 :string
@@ -22,8 +25,17 @@
 #  updated_at             :datetime         not null
 #
 class User < ApplicationRecord
+  # include Devise::JWT::RevocationStrategies::JTIMatcher
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
+  devise :database_authenticatable, :registerable, :confirmable, 
+         :omniauthable, :recoverable, :rememberable, :validatable,
+         :jwt_authenticatable, jwt_revocation_strategy: JwtDenylist
+
+  belongs_to :country, optional: true
+  belongs_to :city, optional: true
+  belongs_to :club, optional: true
+
+
 end
