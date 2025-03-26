@@ -8,7 +8,6 @@ paths:
     get:
       summary: list cities
       tags:
-      - Cities
       - without Auth
       responses:
         '200':
@@ -35,7 +34,6 @@ paths:
     get:
       summary: List clubs
       tags:
-      - Clubs
       - without Auth
       responses:
         '200':
@@ -64,7 +62,6 @@ paths:
     get:
       summary: list countries
       tags:
-      - Countries
       - without Auth
       responses:
         '200':
@@ -102,6 +99,8 @@ paths:
                   code:
                     type: integer
                   token:
+                    type: string
+                  message:
                     type: string
                   user:
                     type: object
@@ -151,6 +150,85 @@ paths:
                   - name
                   - email
                   - password
+              required:
+              - user
+  "/api/user/login":
+    post:
+      summary: login user
+      tags:
+      - User Login
+      parameters: []
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  token:
+                    type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user:
+                  type: object
+                  properties:
+                    email:
+                      type: string
+                    password:
+                      type: string
+                  required:
+                  - email
+                  - password
+              required:
+              - user
+  "/api/users":
+    patch:
+      summary: update user
+      tags:
+      - User Update
+      parameters: []
+      responses:
+        '200':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    email:
+                      type: string
+                    surname:
+                      type: string
+                    gender:
+                      type: string
+                    category:
+                      type: string
+                    rating:
+                      type: string
+                    position:
+                      type: string
+                    date_of_birth:
+                      type: string
+                    city_id:
+                      type: integer
+                    country_id:
+                      type: integer
+                    club_id:
+                      type: integer
+                  required: []
               required:
               - user
 servers:

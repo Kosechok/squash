@@ -8,7 +8,7 @@ RSpec.describe 'api/countries', type: :request do
   path '/api/countries' do
 
     get('list countries') do
-      tags 'Countries', 'without Auth'
+      tags 'without Auth'
       produces 'application/json'
 
       response(200, 'successful') do

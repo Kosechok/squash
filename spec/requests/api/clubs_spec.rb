@@ -10,7 +10,7 @@ RSpec.describe 'api/clubs', type: :request do
 
   path '/api/clubs' do
     get('List clubs') do
-      tags 'Clubs', 'without Auth'
+      tags 'without Auth'
       produces 'application/json'
 
       response(200, 'successful') do

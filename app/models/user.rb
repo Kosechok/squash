@@ -29,13 +29,21 @@ class User < ApplicationRecord
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  devise :database_authenticatable, :registerable, :confirmable, 
-         :omniauthable, :recoverable, :rememberable, :validatable,
+  devise :database_authenticatable, :registerable, #:confirmable, 
+         :omniauthable, :recoverable, :rememberable, #:validatable,
          :jwt_authenticatable, jwt_revocation_strategy: JwtDenylist
 
   belongs_to :country, optional: true
   belongs_to :city, optional: true
   belongs_to :club, optional: true
 
+  validates_with EmailValidator, on: [:create, :update]
+  validates_with PasswordValidator, min_length: 2, max_length: 80, on: :create
+  validates_with CategoryValidator, on: :update
 
+
+  # def active_for_authentication?
+  #   # super && confirmed? # Стандартное поведение Devise
+  #   true # Разрешаем авторизацию без подтверждения email
+  # end
 end

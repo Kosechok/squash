@@ -9,7 +9,7 @@ RSpec.describe 'api/cities', type: :request do
   path '/api/cities' do
 
     get('list cities') do
-      tags 'Cities', 'without Auth'
+      tags 'without Auth'
       produces 'application/json'      
       response(200, 'successful') do
 

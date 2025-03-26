@@ -4,7 +4,15 @@ class Api::User::RegistrationsController < Devise::RegistrationsController
   respond_to :json
   # before_action :configure_sign_up_params, only: [:create]
   # before_action :configure_account_update_params, only: [:update]
-
+  def update
+    account_update_params = devise_parameter_sanitizer.sanitize(:account_update)
+    resource_updated = resource.update_without_password(account_update_params)
+    
+    render json: {
+      code: 0, 
+      user: UserSerializer.new(resource).serializable_hash[:data][:attributes]
+    }
+  end
   # GET /resource/sign_up
   # def new
   #   super
@@ -63,10 +71,10 @@ class Api::User::RegistrationsController < Devise::RegistrationsController
 
   private
 
+
   def respond_with(resource, _opts = {})
     if resource.persisted?
-      sign_in(resource, bypass: true)
-      @token = Warden::JWTAuth::UserEncoder.new.call(resource, :user, nil).first
+      @token = request.env['warden-jwt_auth.token']
       headers['Authorization'] = @token
 
       render json: {
@@ -79,5 +87,5 @@ class Api::User::RegistrationsController < Devise::RegistrationsController
         status: { message: "User couldn't be created successfully. #{resource.errors.full_messages.to_sentence}" }
       }, status: :unprocessable_entity
     end
-  end  
+  end
 end
