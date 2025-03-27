@@ -247,9 +247,7 @@ RSpec.describe "Users", type: :request do
                   category: 'C25'
                 }
               }, as: :json
-puts "--------------------"
-puts JSON.pretty_generate(JSON.parse(response.body))
-puts "--------------------"
+
             expect(response).to have_http_status(:ok)
             json_response = JSON.parse(response.body)
             expect(json_response['code']).to eq(105)
@@ -276,6 +274,35 @@ puts "--------------------"
           end
         end
       end
+    end
+  end
+
+  path '/api/user/logout' do
+    delete('authorization') do
+      tags 'User logout'
+      consumes 'application/json'
+      produces 'application/json'
+
+      response(200, 'successful') do
+        let(:user) { create(:user) }
+        let(:auth_headers) do
+          post '/api/user/login', params: { user: { email: user.email, password: user.password } }, as: :json
+          json_response = JSON.parse(response.body)
+          { 'Authorization' => "Bearer #{json_response['token']}" }
+        end
+
+        it 'logout user' do
+          delete '/api/user/logout', headers: auth_headers
+
+          expect(response).to have_http_status(:ok)
+          json_response = JSON.parse(response.body)
+          expect(json_response['code']).to eq(0)
+          expect(json_response['message']).to eq('Вы успешно вышли')
+        end
+      end
+
+
+
     end
   end
 end

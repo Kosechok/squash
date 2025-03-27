@@ -62,10 +62,15 @@ module Error
         #   respond(:standard_error, 500, e.to_s)
         # end
 
-        # rescue_from Devise::FailureApp do |e|
+        # rescue_from JWT::DecodeError do |e|
         #   respond(200, 'Неверный email или пароль')
         # end
-
+        # rescue_from JWT::VerificationError do |e|
+        #   respond(200, 'Неверный email или пароль')
+        # end
+        # rescue_from JWT::ExpiredSignature do |e|
+        #   respond(200, 'Неверный email или пароль')
+        # end        
       end
     end
 

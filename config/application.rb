@@ -33,7 +33,11 @@ module Squash
     config.middleware.use ActionDispatch::Cookies
     config.middleware.use config.session_store, config.session_options 
 
-    config.autoload_paths += %W(#{config.root}/lib)   
+    config.autoload_paths += %W(#{config.root}/lib)  
+
+    Dir[Rails.root.join('lib', 'middleware', '*.{rb}')].each { |file| require file } 
+    config.middleware.use Middleware::CatchRackErrors
+    # config.middleware.use Error::ErrorHandler
 
   end
 end

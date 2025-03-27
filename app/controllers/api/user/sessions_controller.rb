@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Api::User::SessionsController < Devise::SessionsController
+  # include Error::ErrorHandler 
   respond_to :json
   # before_action :configure_sign_in_params, only: [:create]
 
@@ -15,9 +16,17 @@ class Api::User::SessionsController < Devise::SessionsController
   # end
 
   # DELETE /resource/sign_out
-  # def destroy
-  #   super
-  # end
+  def destroy
+    signed_out = sign_out(current_user)
+
+    if signed_out
+      # Возвращаем успешный JSON-ответ
+      render json: { code: 0, message: 'Вы успешно вышли' }, status: :ok
+    else
+      # Возвращаем ошибку, если выход не удался
+      render json: { code: 150, message: 'Ошибка при выходе' }, status: :unprocessable_entity
+    end
+  end
 
   # protected
 
@@ -59,4 +68,8 @@ class Api::User::SessionsController < Devise::SessionsController
       }, status: :unauthorized
     end
   end
+
+  # def respond_to_on_destroy
+  #   # Пустой метод, т.к. мы полностью контролируем ответ в destroy
+  # end  
 end
