@@ -305,4 +305,147 @@ RSpec.describe "Users", type: :request do
 
     end
   end
+
+  path '/api/users/current_user' do
+    get('Current user info') do
+      tags 'current user'
+      consumes 'application/json'
+      produces 'application/json'
+
+      response(200, 'successful') do
+        schema type: :object,
+               properties: {
+                 code: { type: :integer },
+                 message: { type: :string },
+                 user: {
+                   type: :object,
+                   properties: {
+                     category: { type: :string },
+                     city: { type: :string },
+                     club: { type: :string },
+                     country: { type: :string },
+                     date_of_birth: { type: :string },
+                     email: { type: :string },
+                     email_verified: { type: :boolean },
+                     gender: { type: :string },
+                     id: { type: :integer },
+                     name: { type: :string },
+                     position: { type: :string },
+                     rating: { type: :string },
+                     surname: { type: :string }
+                   }
+                 }
+               }
+        let(:user) { create(:user) }
+        let(:auth_headers) do
+          post '/api/user/login', params: { user: { email: user.email, password: user.password } }, as: :json
+          json_response = JSON.parse(response.body)
+          { 'Authorization' => "Bearer #{json_response['token']}" }
+        end
+
+
+          it 'updates user data successfully' do
+            get '/api/users/current_user',
+                  headers: auth_headers
+
+            expect(response).to have_http_status(:ok)
+
+            json_response = JSON.parse(response.body)
+            expect(json_response['code']).to eq(0)
+            expect(json_response['user']['name']).to eq(user.name)
+            expect(json_response['user']['email']).to eq(user.email)
+            expect(json_response['user']['surname']).to eq(user.surname)
+            expect(json_response['user']['category']).to eq(user.category)
+            expect(json_response['user']['gender']).to eq(user.gender)
+            expect(json_response['user']['rating']).to eq(user.rating)
+            expect(json_response['user']['position']).to eq(user.position)
+            expect(Date.parse(json_response['user']['date_of_birth'])).to eq(user.date_of_birth)
+          end
+
+      end
+
+    end
+  end
+
+  path '/api/users' do
+    get('Get users list') do
+      tags 'users list'
+      consumes 'application/json'
+      produces 'application/json'
+
+      response(200, 'successful') do
+        schema type: :object,
+               properties: {
+                 code: { type: :integer },
+                 users: {
+                   type: :array,
+                   items: {
+                     type: :object,
+                     properties: {                    
+                       category: { type: :string },
+                       city: { type: :string },
+                       club: { type: :string },
+                       country: { type: :string },
+                       date_of_birth: { type: :string },
+                       gender: { type: :string },
+                       id: { type: :integer },
+                       name: { type: :string },
+                       position: { type: :string },
+                       rating: { type: :string },
+                       surname: { type: :string }
+                     }
+                   }
+                 }
+               }
+        let!(:user) { create(:user) }
+        let!(:user2) { create(:user) }
+        let!(:user3) { create(:user) }
+        let!(:user4) { create(:user) }
+        let(:auth_headers) do
+          post '/api/user/login', params: { user: { email: user.email, password: user.password } }, as: :json
+          json_response = JSON.parse(response.body)
+          { 'Authorization' => "Bearer #{json_response['token']}" }
+        end
+
+
+          it 'updates user data successfully' do
+            get '/api/users',
+                  headers: auth_headers
+
+            expect(response).to have_http_status(:ok)
+
+            # puts response.body
+            json_response = JSON.parse(response.body)
+            expect(json_response['code']).to eq(0)
+            expect(json_response['users']).to be_an(Array)
+            expect(json_response['users'].size).to eq(4)
+
+
+            expect(json_response['users'][0]).not_to include(
+              "email")
+
+
+            expect(json_response['users'][0]['name']).to eq(user.name)
+            expect(json_response['users'][0]['surname']).to eq(user.surname)
+            expect(json_response['users'][0]['category']).to eq(user.category)
+            expect(json_response['users'][0]['gender']).to eq(user.gender)
+            expect(json_response['users'][0]['rating']).to eq(user.rating)
+            expect(json_response['users'][0]['position']).to eq(user.position)
+            expect(Date.parse(json_response['users'][0]['date_of_birth'])).to eq(user.date_of_birth)
+
+
+            expect(json_response['users'][3]['name']).to eq(user4.name)
+            expect(json_response['users'][3]['surname']).to eq(user4.surname)
+            expect(json_response['users'][3]['category']).to eq(user4.category)
+            expect(json_response['users'][3]['gender']).to eq(user4.gender)
+            expect(json_response['users'][3]['rating']).to eq(user4.rating)
+            expect(json_response['users'][3]['position']).to eq(user4.position)
+            expect(Date.parse(json_response['users'][3]['date_of_birth'])).to eq(user4.date_of_birth)            
+          end
+
+      end
+
+    end
+  end
+
 end

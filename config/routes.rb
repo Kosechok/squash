@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'user/show'
   mount Rswag::Ui::Engine => '/api-docs'
   mount Rswag::Api::Engine => '/api-docs'
   devise_for :users, path: '', path_names: {
@@ -19,9 +20,17 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
   namespace :api do
+
+    match "/users/current_user", to: "users#me", via: 'get'
+
     resources :countries, only: [:index]
     resources :cities, only: [:index]
     resources :clubs, only: [:index]
+    resources :users, only: [:show, :index] 
+
+
+
+    # match 
 
   end
 end

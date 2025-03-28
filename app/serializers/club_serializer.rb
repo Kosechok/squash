@@ -10,7 +10,7 @@
 #  updated_at :datetime         not null
 #
 class ClubSerializer
-  include FastJsonapi::ObjectSerializer
+  include JSONAPI::Serializer
 
   attributes :name, :id, :country_name, :city_name
 

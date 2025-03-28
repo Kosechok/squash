@@ -231,6 +231,47 @@ paths:
                   required: []
               required:
               - user
+    get:
+      summary: Get users list
+      tags:
+      - users list
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  users:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        category:
+                          type: string
+                        city:
+                          type: string
+                        club:
+                          type: string
+                        country:
+                          type: string
+                        date_of_birth:
+                          type: string
+                        gender:
+                          type: string
+                        id:
+                          type: integer
+                        name:
+                          type: string
+                        position:
+                          type: string
+                        rating:
+                          type: string
+                        surname:
+                          type: string
   "/api/user/logout":
     delete:
       summary: authorization
@@ -239,6 +280,52 @@ paths:
       responses:
         '200':
           description: successful
+  "/api/users/current_user":
+    get:
+      summary: Current user info
+      tags:
+      - current user
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  message:
+                    type: string
+                  user:
+                    type: object
+                    properties:
+                      category:
+                        type: string
+                      city:
+                        type: string
+                      club:
+                        type: string
+                      country:
+                        type: string
+                      date_of_birth:
+                        type: string
+                      email:
+                        type: string
+                      email_verified:
+                        type: boolean
+                      gender:
+                        type: string
+                      id:
+                        type: integer
+                      name:
+                        type: string
+                      position:
+                        type: string
+                      rating:
+                        type: string
+                      surname:
+                        type: string
 servers:
 - url: http://{defaultHost}
   variables:

@@ -46,4 +46,6 @@ class User < ApplicationRecord
   #   # super && confirmed? # Стандартное поведение Devise
   #   true # Разрешаем авторизацию без подтверждения email
   # end
+
+
 end

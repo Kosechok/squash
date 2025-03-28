@@ -9,7 +9,7 @@
 #  updated_at :datetime         not null
 #
 class CitySerializer
-  include FastJsonapi::ObjectSerializer
+  include JSONAPI::Serializer
 
   attributes :name, :id, :country_name
 

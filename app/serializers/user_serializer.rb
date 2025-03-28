@@ -24,9 +24,24 @@
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #
-class UserSerializer
-  include FastJsonapi::ObjectSerializer
-  attributes :id, :email, :name, :surname, :gender, :category, :rating, :position, :date_of_birth#, :city, :country, :club#, :email_verified
+class UserSerializer# < ActiveModel::Serializer
+
+  include JSONAPI::Serializer
+
+  attributes :id, :name, :surname, :gender, :category, :rating, :position, :date_of_birth#, :city, :country, :club#, :email_verified
+
+
+  attribute :email, if: -> (record, params) { !params || !params[:hide_details] }
+
+  # attribute :email_verified do |user|
+  #    !user.confirmed_at.nil?
+  # end 
+  # attribute :email do |object, params|
+  #   object.email unless params && params[:hide_details]
+  # end
+  attribute :email_verified, if: -> (record, params) { !params || !params[:hide_details] } do |user|
+    !user.confirmed_at.nil?
+  end
 
   attribute :city do |user|
     user&.city&.name
@@ -40,7 +55,5 @@ class UserSerializer
     user&.club&.name
   end
 
-  attribute :email_verified do |user|
-     !user.confirmed_at.nil?
-  end 
+
 end

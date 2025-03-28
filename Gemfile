@@ -8,8 +8,8 @@ gem "rails", "~> 7.1.4", ">= 7.1.4.2"
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", ">= 5.0"
 gem 'annotate', '~> 3.2'
-# gem 'active_model_serializers', '~> 0.10.14'
-gem 'fast_jsonapi'
+gem 'active_model_serializers'
+gem 'jsonapi-serializer'
 # gem 'redis'
 # gem 'redis-rails'
 gem 'simple_command'
