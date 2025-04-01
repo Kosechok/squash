@@ -4,7 +4,7 @@ RSpec.describe "Users", type: :request do
   # Путь для регистрации пользователя
   path '/api/user/signup' do
     post('register user') do
-      tags 'User Registration'
+      tags 'User'
       consumes 'application/json'
       produces 'application/json'
 
@@ -101,7 +101,7 @@ RSpec.describe "Users", type: :request do
   # Путь для входа пользователя
   path '/api/user/login' do
     post('login user') do
-      tags 'User Login'
+      tags 'User'
       consumes 'application/json'
       produces 'application/json'
 
@@ -157,7 +157,8 @@ RSpec.describe "Users", type: :request do
   # Путь для обновления данных пользователя
   path '/api/users' do
     patch('update user') do
-      tags 'User Update'
+      tags 'User'
+      security [ Bearer: {} ]
       consumes 'application/json'
       produces 'application/json'
 
@@ -278,8 +279,9 @@ RSpec.describe "Users", type: :request do
   end
 
   path '/api/user/logout' do
-    delete('authorization') do
-      tags 'User logout'
+    delete('logout user') do
+      tags 'User'
+      security [ Bearer: {} ]
       consumes 'application/json'
       produces 'application/json'
 
@@ -308,7 +310,8 @@ RSpec.describe "Users", type: :request do
 
   path '/api/users/current_user' do
     get('Current user info') do
-      tags 'current user'
+      tags 'User'
+      security [ Bearer: {} ]
       consumes 'application/json'
       produces 'application/json'
 
@@ -369,7 +372,8 @@ RSpec.describe "Users", type: :request do
 
   path '/api/users' do
     get('Get users list') do
-      tags 'users list'
+      tags 'User'
+      security [ Bearer: {}  ]
       consumes 'application/json'
       produces 'application/json'
 

@@ -21,10 +21,20 @@ RSpec.configure do |config|
         title: 'API V1',
         version: 'v1'
       },
+components: {
+  securitySchemes: {
+   Bearer: {
+    type: :apiKey,
+    name: 'Authorization',
+    in: :header,
+    description: 'Bearer токет который выдается после авторизации(есть как в заголовках ответа так и в json)'
+   }
+  }
+ },      
       paths: {},
       servers: [
         {
-          url: 'http://{defaultHost}',
+          url: 'http://{defaultHost.default}',
           variables: {
             defaultHost: {
               default: '172.16.4.220:4001'
